@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chatua Ghar - Order Online</title>
+  <style>
+    body { font-family: sans-serif; background: #f8f8f8; margin: 0; padding: 0; }
+    header { background: #1a73e8; color: white; padding: 1rem; text-align: center; }
+    .tagline { font-size: 0.9rem; margin-top: 0.2rem; }
+    .container { padding: 1rem; max-width: 700px; margin: auto; }
+    .item { background: white; padding: 1rem; margin-bottom: 1rem; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .item h3 { margin: 0; }
+    .addons { margin: 0.5rem 0; }
+    label { display: block; margin: 5px 0; }
+    .btn { background: #1a73e8; color: white; padding: 0.5rem 1rem; border: none; border-radius: 5px; cursor: pointer; }
+    .btn:hover { background: #155cc0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Chatua Ghar</h1>
+    <div class="tagline">Refreshing Drink Destination</div>
+  </header>
+
+  <div class="container">
+
+    <div class="item">
+      <img src="kurkure-salad.jpg" alt="Kurkure Salad" style="width: 100%; border-radius: 10px; margin-bottom: 10px;" />
+      <h3>Kurkure Salad – ₹30</h3>
+      <div class="addons">
+        <strong>Add-ons:</strong><br>
+        <label><input type="checkbox" value="Cheese|50"> Cheese (+₹50)</label>
+        <label><input type="checkbox" value="Mayonnaise|10"> Mayonnaise (+₹10)</label>
+        <label><input type="checkbox" value="Chicken|50"> Chicken (+₹50)</label>
+      </div>
+      <button class="btn" onclick="orderNow('Kurkure Salad', 30, this)">Order Now</button>
+    </div>
+
+    <div class="item">
+      <img src="chips-salad.jpg" alt="Chips Salad" style="width: 100%; border-radius: 10px; margin-bottom: 10px;" />
+      <h3>Chips Salad – ₹30</h3>
+      <div class="addons">
+        <strong>Add-ons:</strong><br>
+        <label><input type="checkbox" value="Cheese|50"> Cheese (+₹50)</label>
+        <label><input type="checkbox" value="Mayonnaise|10"> Mayonnaise (+₹10)</label>
+        <label><input type="checkbox" value="Chicken|50"> Chicken (+₹50)</label>
+      </div>
+      <button class="btn" onclick="orderNow('Chips Salad', 30, this)">Order Now</button>
+    </div>
+
+    <div class="item">
+      <img src="lays-salad.jpg" alt="Lays Salad" style="width: 100%; border-radius: 10px; margin-bottom: 10px;" />
+      <h3>Lays Salad – ₹40</h3>
+      <div class="addons">
+        <strong>Add-ons:</strong><br>
+        <label><input type="checkbox" value="Cheese|50"> Cheese (+₹50)</label>
+        <label><input type="checkbox" value="Mayonnaise|10"> Mayonnaise (+₹10)</label>
+        <label><input type="checkbox" value="Chicken|50"> Chicken (+₹50)</label>
+      </div>
+      <button class="btn" onclick="orderNow('Lays Salad', 40, this)">Order Now</button>
+    </div>
+
+    <div class="item">
+      <img src="chatua-drink.jpg" alt="Chatua Drink" style="width: 100%; border-radius: 10px; margin-bottom: 10px;" />
+      <h3>Chatua Drink – ₹20</h3>
+      <div class="addons">
+        <strong>Preference:</strong><br>
+        <label><input type="radio" name="spice" value="Spicy|0"> Spicy</label>
+        <label><input type="radio" name="spice" value="Non-Spicy|0"> Non-Spicy</label>
+      </div>
+      <button class="btn" onclick="orderNow('Chatua Drink', 20, this)">Order Now</button>
+    </div>
+
+  </div>
+
+  <script>
+    function orderNow(item, basePrice, button) {
+      const parent = button.parentElement;
+      const checkboxes = parent.querySelectorAll('input[type=checkbox]:checked');
+      const radios = parent.querySelectorAll('input[type=radio]:checked');
+      let addonText = '';
+      let addonTotal = 0;
+
+      checkboxes.forEach(cb => {
+        const [name, price] = cb.value.split('|');
+        addonText += `${name} (+₹${price}), `;
+        addonTotal += parseInt(price);
+      });
+
+      radios.forEach(rb => {
+        const [name, price] = rb.value.split('|');
+        addonText += `${name}, `;
+      });
+
+      if (addonText.length > 0) addonText = addonText.slice(0, -2);
+
+      const total = basePrice + addonTotal;
+
+      const message = `Hi Chatua Ghar! 👋
+
+I'd like to order:
+🍽 ${item} – ₹${basePrice}
+` +
+                      (addonText ? `➕ Add-ons: ${addonText}
+` : '') +
+                      `
+Total: ₹${total}
+
+Name:
+Location:`;
+
+      const encoded = encodeURIComponent(message);
+      const phone = '916001148165';
+      const url = `https://wa.me/${phone}?text=${encoded}`;
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
